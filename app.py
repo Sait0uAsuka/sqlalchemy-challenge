@@ -126,13 +126,13 @@ def tobs():
 @app.route("/api/v1.0/<start>/<end>")
 def start_end(start, end=None):
     session = Session(engine)
-    
-    station_stats = session.query(func.min(Measurement.tobs),
+    if end:
+        station_stats = session.query(func.min(Measurement.tobs),
                               func.max(Measurement.tobs),
                               func.avg(Measurement.tobs)).\
             filter(Measurement.date >= start).\
             filter(Measurement.date <= end).all()
-    if end:
+    else:
         station_stats = session.query(func.min(Measurement.tobs),
                               func.max(Measurement.tobs),
                               func.avg(Measurement.tobs)).\
