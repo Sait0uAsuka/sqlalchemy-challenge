@@ -127,27 +127,23 @@ def tobs():
 def start_end(start, end=None):
     session = Session(engine)
     
-    if end:
-        # Start and end date are provided
-        station_stats = session.query(func.min(Measurement.tobs),
+    station_stats = session.query(func.min(Measurement.tobs),
                               func.max(Measurement.tobs),
                               func.avg(Measurement.tobs)).\
             filter(Measurement.date >= start).\
             filter(Measurement.date <= end).all()
-    else:
-        # Only start date is provided
+    if end:
         station_stats = session.query(func.min(Measurement.tobs),
                               func.max(Measurement.tobs),
                               func.avg(Measurement.tobs)).\
             filter(Measurement.date >= start).all()
 
-
-
     
+    TMIN, TMAX, TAVG = station_stats[0]
     temp_summary = {
-        "TMIN": station_stats[0][0],
-        "TMAX": station_stats[0][1],
-        "TAVG": station_stats[0][2]
+    "TMIN": TMIN,
+    "TMAX": TMAX,
+    "TAVG": TAVG
     }
     session.close()
     
