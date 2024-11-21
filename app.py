@@ -47,7 +47,7 @@ def welcome():
     """welcome to Hawaii weather API, heres are the following routes"""
     return (
         f"Available Routes:<br/>"
-        f"/api/v1.0/precipitation - Precipitaion data fro the last 12 months<br/>"
+        f"/api/v1.0/precipitation - Precipitation data fro the last 12 months<br/>"
         f"/api/v1.0/stations - List of weather stations<br/>"
         f"/api/v1.0/tobs - Temp of the most active station for last 12 months<br/>"
         f"/api/v1.0/<start> - Min, Max, Avg temp of start date<br/>"
@@ -71,7 +71,8 @@ def precipitation():
     
     precipitation_dict = {}
     for date, prcp in precp_and_date:
-        precipitation_dict[date] = prcp
+        if prcp is not None:
+            precipitation_dict[date] = prcp
 
     
     session.close()
